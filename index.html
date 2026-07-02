@@ -2,24 +2,27 @@
 <html lang="it">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta
     http-equiv="Content-Security-Policy"
     content="upgrade-insecure-requests; default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self'; manifest-src 'self'"
   />
   <title>Batman Comic Reader</title>
-  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Edizione Gotham Déco del Batman Comic Reader: lettura fluida delle quattro stagioni, design noir art-déco, zero dipendenze esterne." />
+  <meta name="theme-color" content="#07080d" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Comic Reader" />
   <link rel="manifest" href="./manifest.json?v=12" />
   <link rel="icon" href="./icons/icon-192.png?v=12" type="image/png" />
   <link rel="apple-touch-icon" href="./icons/icon-192.png?v=12" />
-  <link rel="stylesheet" href="./app.css?v=12" />
+  <link rel="stylesheet" href="./redesign.css?v=12" />
   <link rel="stylesheet" href="./roulette3d.css?v=12" />
 </head>
 <body>
-  <!-- Intro animata col logo del progetto (una volta per sessione) -->
+  <a class="skip-link" href="#reader">Salta al lettore</a>
+
+  <!-- ══ Intro 3D "costruzione a mattoni" (una volta per sessione) ══ -->
   <div id="intro-overlay" class="intro-overlay" role="presentation">
     <canvas id="intro-canvas" class="intro-canvas" aria-hidden="true"></canvas>
     <div class="intro-inner">
@@ -28,10 +31,7 @@
     </div>
   </div>
 
-  <video id="bg-video" autoplay muted loop playsinline preload="metadata">
-    <source src="gotham.mp4" type="video/mp4" />
-  </video>
-
+  <!-- ══ Menu di navigazione (completo) ══ -->
   <button
     id="hamburger-toggle"
     class="hamburger-toggle"
@@ -45,15 +45,9 @@
 
   <div id="site-drawer-overlay" class="site-drawer-overlay" hidden></div>
 
-    <aside
-      id="site-drawer"
-      class="site-drawer"
-      aria-label="Menu principale"
-      aria-hidden="true"
-      inert
-    >
-      <nav class="site-drawer-nav" aria-label="Link principali">
-      <a href="./index.html" class="site-drawer-link">
+  <aside id="site-drawer" class="site-drawer" aria-label="Menu principale" aria-hidden="true" inert>
+    <nav class="site-drawer-nav" aria-label="Link principali">
+      <a href="./index.html" class="site-drawer-link" aria-current="page">
         <img class="site-drawer-link-icon" src="./assets/menu/home.png" alt="" aria-hidden="true" />
         <span class="site-drawer-link-label">Home</span>
       </a>
@@ -81,308 +75,284 @@
         <img class="site-drawer-link-icon" src="./assets/menu/3d.svg" alt="" aria-hidden="true" />
         <span class="site-drawer-link-label">Gotham 3D Mode</span>
       </a>
-      </nav>
-    </aside>
+    </nav>
+  </aside>
 
-  <nav id="season-menu" class="menu season-popup-expanded is-compact-hidden" aria-label="Stagioni">
-    <button
-      id="season-menu-close"
-      class="season-menu-close"
-      type="button"
-      aria-label="Chiudi selettore stagioni"
-    >
-      x
-    </button>
-    <a href="#" class="link active" data-page="1" data-label="Volume I - L'estate prolungata">
-      <span class="link-icon">S1</span>
-      <span class="link-text">L'estate prolungata</span>
-    </a>
-    <a href="#" class="link" data-page="45" data-label="Volume II - L'inverno sta arrivando">
-      <span class="link-icon">S2</span>
-      <span class="link-text">L'inverno sta arrivando</span>
-    </a>
-    <a href="#" class="link" data-page="98" data-label="Volume III - L'Abisso">
-      <span class="link-icon">S3</span>
-      <span class="link-text">L'Abisso</span>
-    </a>
-    <a href="#" class="link" data-page="146" data-label="Volume IV - A million miles from home">
-      <span class="link-icon">S4</span>
-      <span class="link-text">A million miles from home</span>
-    </a>
-  </nav>
+  <!-- ══ Scenografia ambientale: Gotham ══ -->
+  <div class="scene" aria-hidden="true">
+    <div class="scene-stars"></div>
+    <div class="scene-moon"></div>
+    <div class="scene-signal">
+      <svg viewBox="0 0 100 60" class="scene-signal-bat" focusable="false">
+        <path d="M50 8 C46 16 42 18 36 17 C38 21 38 24 35 27 C28 22 18 22 8 30 C20 28 27 31 31 38 C35 34 39 34 42 37 L46 52 L50 44 L54 52 L58 37 C61 34 65 34 69 38 C73 31 80 28 92 30 C82 22 72 22 65 27 C62 24 62 21 64 17 C58 18 54 16 50 8 Z" />
+      </svg>
+    </div>
+    <div class="scene-beam scene-beam-a"></div>
+    <div class="scene-beam scene-beam-b"></div>
+    <div class="scene-clouds"><i></i><i></i><i></i></div>
 
-  <header class="title-container" role="banner">
-    <div class="logo-wrap" aria-hidden="true">
-      <img class="title-logo-image" src="./assets/menu/home.png" alt="" />
-    </div>
-    <div class="title-text">
-      <h1 id="comic-title" class="title-main">Batman</h1>
-      <div id="title-sub" class="title-sub">Volume I - L'estate prolungata</div>
-      <div class="title-reflection" aria-hidden="true"></div>
-      <div class="title-scanline" aria-hidden="true"></div>
-    </div>
+    <svg class="skyline skyline-far" viewBox="0 0 1200 240" preserveAspectRatio="none" focusable="false">
+      <path d="M0 240 L0 150 L40 150 L40 110 L70 110 L70 160 L120 160 L120 90 L135 90 L135 70 L150 70 L150 90 L165 90 L165 150 L220 150 L220 120 L260 120 L260 170 L320 170 L320 100 L340 100 L340 60 L355 60 L355 100 L375 100 L375 150 L430 150 L430 130 L480 130 L480 170 L540 170 L540 80 L560 80 L560 50 L575 50 L575 80 L600 80 L600 140 L660 140 L660 110 L700 110 L700 160 L760 160 L760 120 L800 120 L800 90 L820 90 L820 140 L880 140 L880 100 L920 100 L920 160 L980 160 L980 130 L1030 130 L1030 90 L1050 90 L1050 150 L1110 150 L1110 110 L1160 110 L1160 170 L1200 170 L1200 240 Z" />
+    </svg>
+    <svg class="skyline skyline-mid" viewBox="0 0 1200 260" preserveAspectRatio="none" focusable="false">
+      <path d="M0 260 L0 170 L60 170 L60 120 L90 120 L90 100 L100 100 L100 120 L130 120 L130 180 L200 180 L200 110 L230 110 L230 70 L245 70 L245 40 L255 40 L255 70 L270 70 L270 110 L300 110 L300 170 L370 170 L370 140 L420 140 L420 190 L500 190 L500 100 L530 100 L530 60 L545 60 L545 100 L575 100 L575 160 L650 160 L650 120 L700 120 L700 180 L780 180 L780 90 L810 90 L810 50 L825 50 L825 90 L855 90 L855 150 L930 150 L930 120 L980 120 L980 180 L1060 180 L1060 130 L1120 130 L1120 170 L1200 170 L1200 260 Z" />
+    </svg>
+    <svg class="skyline skyline-near" viewBox="0 0 1200 200" preserveAspectRatio="none" focusable="false">
+      <path d="M0 200 L0 120 L80 120 L80 60 L110 60 L110 30 L125 30 L125 60 L155 60 L155 130 L250 130 L250 80 L300 80 L300 150 L400 150 L400 70 L430 70 L430 40 L445 40 L445 70 L480 70 L480 140 L590 140 L590 100 L650 100 L650 160 L760 160 L760 80 L800 80 L800 50 L815 50 L815 80 L860 80 L860 140 L960 140 L960 110 L1020 110 L1020 160 L1200 160 L1200 200 Z" />
+    </svg>
+
+    <div class="rain rain-a"></div>
+    <div class="rain rain-b"></div>
+    <div class="scene-vignette"></div>
+  </div>
+
+  <!-- ══ Intestazione art-déco ══ -->
+  <header class="masthead reveal">
+    <div class="deco-sunburst" aria-hidden="true"></div>
+    <p class="masthead-kicker">Le avventure di</p>
+    <h1 class="masthead-title">BATMAN</h1>
+    <p class="masthead-sub">Comic Reader</p>
+    <div class="deco-divider" aria-hidden="true"><i></i><b></b><i></i></div>
+    <nav class="masthead-nav" aria-label="Altre sezioni del sito">
+      <a href="./storie.html">Storie</a>
+      <a href="./personaggi.html">Personaggi</a>
+      <a href="./le-perle-di-bud.html">Le Perle di Bud</a>
+      <a href="./meanwhile-the-doctor.html">Meanwhile The Doctor</a>
+      <a href="./gotham.html">Gotham 3D</a>
+      <a href="./crediti.html">Crediti</a>
+    </nav>
   </header>
 
-  <div class="experience-layout">
-    <section class="comic-panel">
-      <div class="reader-meta">
-        <div id="reader-status" class="status-chip">Caricamento archivio tavole...</div>
-      </div>
-
-      <section class="theme-song-card" aria-label="Theme song del reader">
-        <div class="theme-song-head">
-          <div class="theme-song-copy">
-            <span class="theme-song-kicker">Le Avventure di Batman</span>
-            <p class="theme-song-text">Concentrazione e Mindset</p>
-          </div>
-          <div class="theme-song-visual-shell" aria-hidden="true">
-            <canvas
-              class="theme-song-visual theme-song-visual-static"
-              id="theme-song-visual-static"
-              width="82"
-              height="82"
-            ></canvas>
-            <img
-              class="theme-song-visual theme-song-visual-animated"
-              id="theme-song-visual-animated"
-              src="./media/theme-visualizer.gif"
-              data-src="./media/theme-visualizer.gif"
-              alt="Visualizzatore animato giallo del theme song"
-              loading="lazy"
-            />
-          </div>
-        </div>
-        <div class="theme-song-player-shell" aria-label="Controlli theme song">
-          <button
-            class="theme-song-control theme-song-play"
-            id="theme-song-play"
-            type="button"
-            aria-label="Riproduci theme song"
-            aria-pressed="false"
-          >
-            <span class="theme-song-control-icon" id="theme-song-play-icon">&#9654;</span>
-
+  <main>
+    <!-- ══ Scaffale dei volumi ══ -->
+    <section class="shelf reveal" aria-labelledby="shelf-title">
+      <h2 id="shelf-title" class="section-title"><span>Archivio</span> Scegli il volume</h2>
+      <div class="shelf-track">
+        <article class="tome">
+          <button class="tome-open" type="button" data-volume="0" aria-label="Leggi il Volume I - L'estate prolungata">
+            <span class="tome-cover">
+              <img src="./covers/season1.jpg" alt="" loading="lazy" decoding="async" />
+              <span class="tome-gleam" aria-hidden="true"></span>
+            </span>
+            <span class="tome-meta">
+              <span class="tome-code">Vol. I</span>
+              <span class="tome-name">L'estate prolungata</span>
+              <span class="tome-tag">Caos caldo &middot; 44 tavole</span>
+              <span class="tome-resume" data-resume="0" hidden></span>
+            </span>
           </button>
-
-          <div class="theme-song-progress-block">
-            <div class="theme-song-time" id="theme-song-time">00:00 / 00:00</div>
-            <input
-              class="theme-song-progress"
-              id="theme-song-progress"
-              type="range"
-              min="0"
-              max="100"
-              value="0"
-              step="0.1"
-              aria-label="Avanzamento theme song"
-            />
-          </div>
-
-          <button
-            class="theme-song-control theme-song-mute"
-            id="theme-song-mute"
-            type="button"
-            aria-label="Attiva o disattiva audio"
-            aria-pressed="false"
-          >
-            <span class="theme-song-control-icon" id="theme-song-mute-icon">&#128266;</span>
+        </article>
+        <article class="tome">
+          <button class="tome-open" type="button" data-volume="1" aria-label="Leggi il Volume II - L'inverno sta arrivando">
+            <span class="tome-cover">
+              <img src="./covers/season2.jpg" alt="" loading="lazy" decoding="async" />
+              <span class="tome-gleam" aria-hidden="true"></span>
+            </span>
+            <span class="tome-meta">
+              <span class="tome-code">Vol. II</span>
+              <span class="tome-name">L'inverno sta arrivando</span>
+              <span class="tome-tag">Guerra fredda &middot; 53 tavole</span>
+              <span class="tome-resume" data-resume="1" hidden></span>
+            </span>
           </button>
-        </div>
-
-        <audio class="theme-song-player" id="theme-song-player" preload="metadata">
-          <source src="./media/themesong.MP4" type="audio/mp4" />
-          <source src="./media/themesong.MP4" type="video/mp4" />
-          Il tuo browser non supporta il player audio
-        </audio>
-      </section>
-
-      <div class="season-popup-helper-row">
-        <div class="season-popup-helper">👇 Clicca qui sotto per cambiare stagione</div>
-      </div>
-
-      <div class="season-popup-row">
-        <button
-          id="season-popup-compact"
-          class="season-popup-compact"
-          type="button"
-          aria-controls="season-menu"
-          aria-expanded="false"
-          aria-label="Apri selettore stagioni"
-        >
-          <span id="season-popup-code" class="season-popup-code">S1</span>
-          <span id="season-popup-label" class="season-popup-label">Stagioni</span>
-        </button>
-      </div>
-
-      <main class="comic-wrapper" role="region" aria-label="Fumetto">
-        <div class="page-stage" id="page-stage">
-          <div class="comic-frame" aria-hidden="true">
-            <div class="page-layer prev">
-              <img id="comic-prev" alt="" src="" />
-            </div>
-            <div class="page-layer current">
-              <img id="comic-current" alt="Tavola del fumetto" src="" />
-            </div>
-            <div class="page-layer next">
-              <img id="comic-next" alt="" src="" />
-            </div>
-          </div>
-          <div id="page-shadow" aria-hidden="true"></div>
-          <div id="page-counter" aria-hidden="true">-</div>
-          <div id="vignette-container" aria-hidden="false"></div>
-        </div>
-      </main>
-
-      <section class="reader-zoom-panel" aria-label="Zoom lettore">
-        <div class="reader-zoom-head">
-          <span class="reader-zoom-label">Zoom fumetto</span>
-          <span id="reader-zoom-value" class="reader-zoom-value">100%</span>
-        </div>
-        <div class="reader-zoom-slider-row">
-          <span class="reader-zoom-scale-label">50%</span>
-          <input
-            id="reader-zoom-range"
-            class="reader-zoom-range"
-            type="range"
-            min="50"
-            max="115"
-            step="1"
-            value="100"
-            aria-label="Regola la grandezza del fumetto"
-          />
-          <span class="reader-zoom-scale-label">115%</span>
-        </div>
-        <button id="reader-zoom-reset" class="reader-zoom-reset" type="button">100%</button>
-      </section>
-
-      <div class="toolbar" aria-label="Controlli lettore">
-        <button id="prev-btn" class="nav-btn" type="button" aria-label="Pagina precedente">Precedente</button>
-        <div class="page-jump">
-          <input type="number" id="page-input" min="1" placeholder="Pagina" />
-          <button id="page-btn" type="button" aria-label="Vai alla pagina">Vai</button>
-        </div>
-        <button id="next-btn" class="nav-btn" type="button" aria-label="Pagina successiva">Successiva</button>
+        </article>
+        <article class="tome">
+          <button class="tome-open" type="button" data-volume="2" aria-label="Leggi il Volume III - L'Abisso">
+            <span class="tome-cover">
+              <img src="./covers/season3.jpg" alt="" loading="lazy" decoding="async" />
+              <span class="tome-gleam" aria-hidden="true"></span>
+            </span>
+            <span class="tome-meta">
+              <span class="tome-code">Vol. III</span>
+              <span class="tome-name">L'Abisso</span>
+              <span class="tome-tag">Gelo totale &middot; 48 tavole</span>
+              <span class="tome-resume" data-resume="2" hidden></span>
+            </span>
+          </button>
+        </article>
+        <article class="tome">
+          <button class="tome-open" type="button" data-volume="3" aria-label="Leggi il Volume IV - A Million Miles From Home">
+            <span class="tome-cover">
+              <img src="./covers/season4.jpg" alt="" loading="lazy" decoding="async" />
+              <span class="tome-gleam" aria-hidden="true"></span>
+            </span>
+            <span class="tome-meta">
+              <span class="tome-code">Vol. IV</span>
+              <span class="tome-name">A Million Miles From Home</span>
+              <span class="tome-tag">Lontano da casa &middot; 52 tavole</span>
+              <span class="tome-resume" data-resume="3" hidden></span>
+            </span>
+          </button>
+        </article>
       </div>
     </section>
-    <aside class="roulette-section" aria-labelledby="roulette-title">
-    <div class="roulette-shell">
-      <div class="roulette-copy">
-        <span class="roulette-kicker">Extra</span>
-        <h2 id="roulette-title">Concediti una pausa dalla lettura</h2>
-        <p class="roulette-description">
-          Una roulette de merda che puoi girare quando te si sfasteriat e leggr sti strunzat. Attendi l'estrazione e ascolta cosa ha da dirti la pallina
-        </p>
+
+    <!-- ══ Lettore ══ -->
+    <section class="reader reveal" id="reader" aria-label="Lettore del fumetto">
+      <div class="reader-head">
+        <span class="reader-chip" id="reader-chip">Vol. I</span>
+        <h2 class="reader-vol-title" id="reader-vol-title">L'estate prolungata</h2>
+        <p class="reader-status" id="reader-status" role="status">Pronto alla lettura</p>
       </div>
 
-      <div class="roulette-card">
-        <div
-          class="roulette-container"
-          id="roulette-container"
-          role="button"
-          tabindex="0"
-          aria-label="Avvia la roulette"
-          aria-disabled="false"
-        >
-          <div class="roulette-pointer" aria-hidden="true"></div>
-          <canvas id="roulette-wheel" width="500" height="500" aria-hidden="true"></canvas>
-          <div class="roulette-ball" id="roulette-ball" aria-hidden="true"></div>
-          <div class="roulette-center" aria-hidden="true"></div>
+      <div class="stage-row">
+        <button class="stage-arrow stage-arrow-prev" id="btn-prev" type="button" aria-label="Tavola precedente">
+          <span aria-hidden="true">&#10094;</span>
+        </button>
+
+        <div class="stage-frame">
+          <div class="stage" id="stage">
+            <div class="page page-prev"><img id="img-prev" alt="" draggable="false" /></div>
+            <div class="page page-current"><img id="img-current" alt="Tavola corrente del fumetto" draggable="false" fetchpriority="high" /></div>
+            <div class="page page-next"><img id="img-next" alt="" draggable="false" /></div>
+            <div class="stage-shadow" aria-hidden="true"></div>
+          </div>
+          <div class="stage-corners" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         </div>
 
-        <div class="roulette-controls">
-          <div class="roulette-actions">
-            <button id="roulette-voice-btn" class="roulette-btn roulette-btn-secondary" type="button" aria-pressed="true">Voce attiva</button>
-            <button id="roulette-mode-btn" class="roulette-btn roulette-btn-secondary roulette-mode-btn" type="button" aria-pressed="true" aria-label="Modalità roulette: tocca per passare tra 3D e 2D">3D</button>
-          </div>
-
-          <div class="roulette-result-panel">
-            <span class="roulette-result-label">Ultima estrazione</span>
-            <div id="roulette-result" class="roulette-result" aria-live="polite">Clicca sulla roulette</div>
-          </div>
-
-          <div class="roulette-hint">
-            La voce legge il numero estratto. Puoi disattivarla in qualsiasi momento.
-          </div>
-
-          <div class="roulette-legend" aria-hidden="true">
-            <span><i class="roulette-green"></i> Zero</span>
-            <span><i class="roulette-red"></i> Rossi</span>
-            <span><i class="roulette-black"></i> Neri</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    </aside>
-  </div>
-
-  <div class="modal" id="modal" role="dialog" aria-modal="true" hidden>
-    <img id="img-zoom" class="modal-content" alt="Vignetta ingrandita" />
-  </div>
-
-  <div
-    class="theme-video-modal"
-    id="theme-video-modal"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="theme-video-title"
-    aria-hidden="true"
-    tabindex="-1"
-    inert
-    hidden
-  >
-    <div class="theme-video-card">
-      <div class="theme-video-topbar">
-        <div id="theme-video-title" class="theme-video-title">Theme Song</div>
-        <button id="theme-video-close" class="theme-video-close" type="button" aria-label="Chiudi video theme song">
-          Chiudi
+        <button class="stage-arrow stage-arrow-next" id="btn-next" type="button" aria-label="Tavola successiva">
+          <span aria-hidden="true">&#10095;</span>
         </button>
       </div>
-      <video
-        id="theme-video-player"
-        class="theme-video-player"
-        playsinline
-        muted
-        preload="none"
-      >
-        <source src="./media/themesong.MP4" type="video/mp4" />
-      </video>
-    </div>
-  </div>
 
-  <button
-    id="install-app-btn"
-    class="install-app-btn"
-    type="button"
-    hidden
-    aria-label="Installa l'app Comic Reader"
-  >
+      <div class="progress" id="progress" aria-hidden="true">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <p class="page-counter" id="page-counter">&mdash;</p>
+
+      <div class="reader-controls">
+        <div class="control-group jump">
+          <label class="visually-hidden" for="jump-input">Vai alla pagina</label>
+          <input id="jump-input" type="number" inputmode="numeric" min="1" placeholder="Pagina" />
+          <button id="jump-btn" type="button">Vai</button>
+        </div>
+        <div class="control-group zoom">
+          <label for="zoom-range">Zoom <output id="zoom-output">100%</output></label>
+          <input id="zoom-range" type="range" min="60" max="140" step="5" value="100" />
+          <button id="zoom-reset" type="button" aria-label="Reimposta zoom al 100%">Reset</button>
+        </div>
+      </div>
+      <p class="reader-hint">Frecce della tastiera, swipe o trascinamento del mouse per voltare pagina.</p>
+    </section>
+
+    <!-- ══ Extra: theme song + roulette ══ -->
+    <section class="extras reveal" aria-labelledby="extras-title">
+      <h2 id="extras-title" class="section-title"><span>Extra</span> Una pausa dalla lettura</h2>
+      <div class="extras-grid">
+
+        <!-- Theme song -->
+        <section class="theme-song-card" aria-label="Theme song del reader">
+          <div class="theme-song-head">
+            <div class="theme-song-copy">
+              <span class="theme-song-kicker">Le Avventure di Batman</span>
+              <p class="theme-song-text">Concentrazione e Mindset</p>
+            </div>
+            <div class="theme-song-visual-shell" aria-hidden="true">
+              <canvas class="theme-song-visual theme-song-visual-static" id="theme-song-visual-static" width="82" height="82"></canvas>
+              <img
+                class="theme-song-visual theme-song-visual-animated"
+                id="theme-song-visual-animated"
+                src="./media/theme-visualizer.gif"
+                data-src="./media/theme-visualizer.gif"
+                alt=""
+                loading="lazy"
+              />
+            </div>
+          </div>
+          <div class="theme-song-player-shell" aria-label="Controlli theme song">
+            <button class="theme-song-control theme-song-play" id="theme-song-play" type="button" aria-label="Riproduci la theme song" aria-pressed="false">
+              <span class="theme-song-control-icon" id="theme-song-play-icon">&#9654;</span>
+            </button>
+            <div class="theme-song-progress-block">
+              <div class="theme-song-time" id="theme-song-time">00:00 / 00:00</div>
+              <input class="theme-song-progress" id="theme-song-progress" type="range" min="0" max="100" value="0" step="0.1" aria-label="Avanzamento theme song" />
+            </div>
+            <button class="theme-song-control theme-song-mute" id="theme-song-mute" type="button" aria-label="Disattiva audio" aria-pressed="false">
+              <span class="theme-song-control-icon" id="theme-song-mute-icon">&#128266;</span>
+            </button>
+          </div>
+          <audio class="theme-song-player" id="theme-song-player" preload="metadata">
+            <source src="./media/themesong.MP4" type="audio/mp4" />
+            <source src="./media/themesong.MP4" type="video/mp4" />
+          </audio>
+        </section>
+
+        <!-- Roulette -->
+        <aside class="roulette-card" aria-labelledby="roulette-title">
+          <div class="roulette-copy">
+            <span class="roulette-kicker">Extra</span>
+            <h3 id="roulette-title">Gira la roulette</h3>
+            <p class="roulette-description">
+              Una roulette de merda che puoi girare quando te si sfasteriat e leggr sti strunzat. Attendi l'estrazione e ascolta cosa ha da dirti la pallina
+            </p>
+          </div>
+          <div
+            class="roulette-container"
+            id="roulette-container"
+            role="button"
+            tabindex="0"
+            aria-label="Avvia la roulette"
+            aria-disabled="false"
+          >
+            <div class="roulette-pointer" aria-hidden="true"></div>
+            <canvas id="roulette-wheel" width="500" height="500" aria-hidden="true"></canvas>
+            <div class="roulette-ball" id="roulette-ball" aria-hidden="true"></div>
+            <div class="roulette-center" aria-hidden="true"></div>
+          </div>
+          <div class="roulette-controls">
+            <div class="roulette-actions">
+              <button id="roulette-voice-btn" class="roulette-btn" type="button" aria-pressed="true">Voce attiva</button>
+              <button id="roulette-mode-btn" class="roulette-btn roulette-mode-btn" type="button" aria-pressed="true" aria-label="Modalità roulette: tocca per passare tra 3D e 2D">3D</button>
+            </div>
+            <div class="roulette-result-panel">
+              <span class="roulette-result-label">Ultima estrazione</span>
+              <div id="roulette-result" class="roulette-result" aria-live="polite">Clicca sulla roulette</div>
+            </div>
+            <div class="roulette-legend" aria-hidden="true">
+              <span><i class="roulette-green"></i> Zero</span>
+              <span><i class="roulette-red"></i> Rossi</span>
+              <span><i class="roulette-black"></i> Neri</span>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer reveal">
+    <div class="deco-divider" aria-hidden="true"><i></i><b></b><i></i></div>
+    <p class="disclaimer" id="disclaimer-text">
+      Progetto fan-made no-profit a scopo di studio e passione personale.
+      Personaggi, immagini e marchi appartengono ai rispettivi proprietari.
+      Nessuna affiliazione o autorizzazione ufficiale.
+    </p>
+    <label class="visually-hidden" for="lang-select">Scegli la lingua dell'avviso</label>
+    <select id="lang-select"></select>
+  </footer>
+
+  <!-- ══ ══ -->
+  <button id="install-app-btn" class="install-app-btn" type="button" hidden aria-label="Installa l'app Comic Reader">
     Installa App
   </button>
 
   <div id="ios-install-modal" class="install-modal" hidden aria-hidden="true">
-    <div
-      class="install-modal-card"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="ios-install-title"
-      aria-describedby="ios-install-description"
-      tabindex="-1"
-    >
+    <div class="install-modal-card" role="dialog" aria-modal="true" aria-labelledby="ios-install-title" aria-describedby="ios-install-description" tabindex="-1">
       <h2 id="ios-install-title">Aggiungi alla Home</h2>
       <p id="ios-install-description">Apri il menu di condivisione del browser e aggiungi il reader alla schermata Home.</p>
-      <ol id="ios-install-steps" class="install-steps">
+      <ol class="install-steps">
         <li>Tocca il tasto Condividi.</li>
         <li>Scegli "Aggiungi alla schermata Home".</li>
         <li>Conferma per creare l'icona dell'app.</li>
       </ol>
       <div class="install-actions">
-        <button id="ios-install-dismiss" class="install-secondary" type="button">Non mostrare piu'</button>
+        <button id="ios-install-dismiss" class="install-secondary" type="button">Non mostrare pi&ugrave;</button>
         <button id="ios-install-close" class="install-primary" type="button" aria-label="Chiudi istruzioni installazione">Ho capito</button>
       </div>
     </div>
   </div>
 
-  <!-- Overlay Roulette 3D (vuoto finché non si apre; Three.js caricato al click) -->
+  <!-- ══ Three.js  -->
   <div id="roulette3d-overlay" class="roulette3d-overlay" hidden inert aria-hidden="true">
     <canvas id="roulette3d-overlay-canvas" aria-label="Roulette napoletana 3D"></canvas>
     <button id="roulette3d-overlay-close" class="roulette3d-close" type="button" aria-label="Chiudi roulette 3D">&#10005;</button>
@@ -391,14 +361,13 @@
       <button id="roulette3d-overlay-voice" class="roulette3d-btn" type="button" aria-pressed="true">Voce attiva</button>
       <div id="roulette3d-overlay-result" class="roulette3d-resultbox" aria-live="polite">&#8212;</div>
     </div>
-    <!-- Gate orientamento: su smartphone la roulette 3D va usata in orizzontale -->
     <div class="roulette3d-rotate" role="alert">
       <div class="roulette3d-rotate-phone" aria-hidden="true"></div>
       <p class="roulette3d-rotate-text">Ruota lo smartphone in orizzontale per usare la roulette 3D</p>
     </div>
   </div>
 
-  <script type="module" src="./app/app.js?v=12"></script>
+  <script type="module" src="./js/app.js?v=12"></script>
   <script type="module" src="./app/roulette3d-launch.js?v=12"></script>
 </body>
 </html>

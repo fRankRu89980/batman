@@ -1,7 +1,18 @@
-const CACHE_NAME = "comic-reader-shell-v27";
+const CACHE_NAME = "comic-reader-shell-v30";
 const APP_SHELL = [
   "./",
   "./index.html",
+  "./redesign.css?v=12",
+  "./roulette3d.css?v=12",
+  "./js/app.js?v=12",
+  "./js/reader.js",
+  "./js/data.js",
+  "./js/menu.js",
+  "./js/themesong.js",
+  "./js/roulette.js",
+  "./js/pwa.js",
+  "./js/intro.js",
+  "./app/roulette3d-launch.js?v=12",
   "./storie.html",
   "./personaggi.html",
   "./le-perle-di-bud.html",
@@ -26,6 +37,14 @@ const APP_SHELL = [
 function isAppShellAsset(pathname) {
   return pathname.endsWith("/") ||
     pathname.endsWith("/index.html") ||
+    pathname.endsWith("/redesign.css") ||
+    pathname.endsWith("/reader.js") ||
+    pathname.endsWith("/data.js") ||
+    pathname.endsWith("/menu.js") ||
+    pathname.endsWith("/themesong.js") ||
+    pathname.endsWith("/roulette.js") ||
+    pathname.endsWith("/pwa.js") ||
+    pathname.endsWith("/intro.js") ||
     pathname.endsWith("/storie.html") ||
     pathname.endsWith("/personaggi.html") ||
     pathname.endsWith("/le-perle-di-bud.html") ||

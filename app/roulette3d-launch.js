@@ -1,8 +1,4 @@
-// ============================================================
-//  ROULETTE3D-LAUNCH — Avvia la roulette 3D in overlay.
-//  Three.js viene caricato SOLO al primo click (dynamic import),
-//  così la home resta leggera. Transizione professionale via CSS.
-// ============================================================
+
 
 const overlay = document.getElementById("roulette3d-overlay");
 

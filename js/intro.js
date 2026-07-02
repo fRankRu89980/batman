@@ -1,15 +1,15 @@
 // ============================================================
-//  INTRO — Sequenza animata + SCHERMATA DI CARICAMENTO.
-//  Modalità 3D "costruzione a mattoni" (Three.js, caricato solo
-//  alla prima visita di sessione). Fallback statico (logo+titolo)
-//  se WebGL non c'è o l'utente preferisce meno animazioni.
-//  L'intro NON sfuma finché il sito non è pronto (risorse iniziali
-//  + prima tavola caricate): così i dispositivi lenti non vedono un
-//  sito "smontato". Tetto massimo di sicurezza. Saltabile con
-//  click / Esc / Invio. Si mostra una volta per sessione.
+//  INTRO — La "vecchia" intro 3D del sito: costruzione a mattoni
+//  del logo Batman (Three.js, caricato solo alla prima visita di
+//  sessione). Fallback statico (logo + titolo) se WebGL non c'è o
+//  l'utente preferisce meno animazioni. L'intro NON sfuma finché
+//  il sito non è pronto (risorse iniziali + prima tavola). Tetto
+//  di sicurezza. Saltabile con click / Esc / Invio. Una volta per
+//  sessione. Portata dalla home classica e adattata al nuovo reader
+//  (#img-current al posto di #comic-current).
 // ============================================================
 
-const SEEN_KEY = "introSeen";
+const SEEN_KEY = "comic-reader-deco:intro-seen";
 const MAX_WAIT = 12000;    // tetto: oltre questo l'intro si chiude comunque
 
 function hasWebGL() {
@@ -19,7 +19,7 @@ function hasWebGL() {
   } catch (e) { return false; }
 }
 
-export function setupIntro() {
+export function initIntro() {
   const overlay = document.getElementById("intro-overlay");
   if (!overlay) return;
 
@@ -79,8 +79,8 @@ export function setupIntro() {
     // 1) risorse iniziali della pagina
     if (document.readyState === "complete") tasks.push(Promise.resolve());
     else tasks.push(new Promise(r => window.addEventListener("load", r, { once: true })));
-    // 2) prima tavola (#comic-current): il reader le imposta lo src dopo il preload
-    const firstImg = document.getElementById("comic-current");
+    // 2) prima tavola (#img-current): il reader le imposta lo src dopo il preload
+    const firstImg = document.getElementById("img-current");
     if (firstImg) {
       tasks.push(new Promise(r => {
         if (firstImg.complete && firstImg.naturalWidth > 0) { r(); return; }
