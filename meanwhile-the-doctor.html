@@ -2,25 +2,28 @@
 <html lang="it">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta
     http-equiv="Content-Security-Policy"
     content="upgrade-insecure-requests; default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self'; manifest-src 'self'"
   />
   <title>Meanwhile The Doctor | Batman Comic Reader</title>
-  <meta name="theme-color" content="#000000" />
+  <meta
+    name="description"
+    content="Leggi The Chinese Restaurant Simposium, episodio della serie parallela Meanwhile The Doctor, nel reader Gotham Déco."
+  />
+  <meta name="theme-color" content="#07080d" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Comic Reader" />
   <link rel="manifest" href="./manifest.json?v=12" />
   <link rel="icon" href="./icons/icon-192.png?v=12" type="image/png" />
   <link rel="apple-touch-icon" href="./icons/icon-192.png?v=12" />
-  <link rel="stylesheet" href="./app.css?v=12" />
+  <link rel="stylesheet" href="./redesign.css?v=12" />
+  <link rel="stylesheet" href="./doctor-reader.css?v=14" />
 </head>
-<body class="personaggi-page">
-  <video id="bg-video" autoplay muted loop playsinline preload="metadata">
-    <source src="gotham.mp4" type="video/mp4" />
-  </video>
+<body class="doctor-page">
+  <a class="skip-link" href="#doctor-reader">Salta al lettore</a>
 
   <button
     id="hamburger-toggle"
@@ -35,13 +38,7 @@
 
   <div id="site-drawer-overlay" class="site-drawer-overlay" hidden></div>
 
-  <aside
-    id="site-drawer"
-    class="site-drawer"
-    aria-label="Menu principale"
-    aria-hidden="true"
-    inert
-  >
+  <aside id="site-drawer" class="site-drawer" aria-label="Menu principale" aria-hidden="true" inert>
     <nav class="site-drawer-nav" aria-label="Link principali">
       <a href="./index.html" class="site-drawer-link">
         <img class="site-drawer-link-icon" src="./assets/menu/home.png" alt="" aria-hidden="true" />
@@ -74,39 +71,187 @@
     </nav>
   </aside>
 
-  <main class="showcase-shell" role="main">
-    <header class="showcase-hero">
-      <span class="stories-badge">Archivio</span>
-      <h1 class="showcase-title">Meanwhile The Doctor</h1>
-      <p class="showcase-intro">
-        Una sezione parallela dedicata agli intermezzi del Doctor, pensata per ospitare episodi laterali, osservazioni e scene di raccordo.
-      </p>
-      <div class="stories-actions">
-        <a class="showcase-back-link" href="./index.html">Torna al Fumetto</a>
-      </div>
-    </header>
+  <div class="scene" aria-hidden="true">
+    <div class="scene-stars"></div>
+    <div class="scene-moon"></div>
+    <div class="scene-signal">
+      <svg viewBox="0 0 100 60" class="scene-signal-bat" focusable="false">
+        <path d="M50 8 C46 16 42 18 36 17 C38 21 38 24 35 27 C28 22 18 22 8 30 C20 28 27 31 31 38 C35 34 39 34 42 37 L46 52 L50 44 L54 52 L58 37 C61 34 65 34 69 38 C73 31 80 28 92 30 C82 22 72 22 65 27 C62 24 62 21 64 17 C58 18 54 16 50 8 Z" />
+      </svg>
+    </div>
+    <div class="scene-beam scene-beam-a"></div>
+    <div class="scene-beam scene-beam-b"></div>
+    <div class="scene-clouds"><i></i><i></i><i></i></div>
 
-    <section class="showcase-grid" aria-label="Anteprima Meanwhile The Doctor">
-      <article class="showcase-card">
-        <h2>Spazio dedicato</h2>
-        <p>
-          Questa pagina puo' raccogliere dialoghi, episodi e contenuti paralleli.
-        </p>
-      </article>
+    <svg class="skyline skyline-far" viewBox="0 0 1200 240" preserveAspectRatio="none" focusable="false">
+      <path d="M0 240 L0 150 L40 150 L40 110 L70 110 L70 160 L120 160 L120 90 L135 90 L135 70 L150 70 L150 90 L165 90 L165 150 L220 150 L220 120 L260 120 L260 170 L320 170 L320 100 L340 100 L340 60 L355 60 L355 100 L375 100 L375 150 L430 150 L430 130 L480 130 L480 170 L540 170 L540 80 L560 80 L560 50 L575 50 L575 80 L600 80 L600 140 L660 140 L660 110 L700 110 L700 160 L760 160 L760 120 L800 120 L800 90 L820 90 L820 140 L880 140 L880 100 L920 100 L920 160 L980 160 L980 130 L1030 130 L1030 90 L1050 90 L1050 150 L1110 150 L1110 110 L1160 110 L1160 170 L1200 170 L1200 240 Z" />
+    </svg>
+    <svg class="skyline skyline-mid" viewBox="0 0 1200 260" preserveAspectRatio="none" focusable="false">
+      <path d="M0 260 L0 170 L60 170 L60 120 L90 120 L90 100 L100 100 L100 120 L130 120 L130 180 L200 180 L200 110 L230 110 L230 70 L245 70 L245 40 L255 40 L255 70 L270 70 L270 110 L300 110 L300 170 L370 170 L370 140 L420 140 L420 190 L500 190 L500 100 L530 100 L530 60 L545 60 L545 100 L575 100 L575 160 L650 160 L650 120 L700 120 L700 180 L780 180 L780 90 L810 90 L810 50 L825 50 L825 90 L855 90 L855 150 L930 150 L930 120 L980 120 L980 180 L1060 180 L1060 130 L1120 130 L1120 170 L1200 170 L1200 260 Z" />
+    </svg>
+    <svg class="skyline skyline-near" viewBox="0 0 1200 200" preserveAspectRatio="none" focusable="false">
+      <path d="M0 200 L0 120 L80 120 L80 60 L110 60 L110 30 L125 30 L125 60 L155 60 L155 130 L250 130 L250 80 L300 80 L300 150 L400 150 L400 70 L430 70 L430 40 L445 40 L445 70 L480 70 L480 140 L590 140 L590 100 L650 100 L650 160 L760 160 L760 80 L800 80 L800 50 L815 50 L815 80 L860 80 L860 140 L960 140 L960 110 L1020 110 L1020 160 L1200 160 L1200 200 Z" />
+    </svg>
 
-      <article class="showcase-card">
-        <h2>Pronta per l'espansione</h2>
-        <p>
-          Il collegamento e' gia' attivo nel menu
-        </p>
+    <div class="rain rain-a"></div>
+    <div class="rain rain-b"></div>
+    <div class="scene-vignette"></div>
+  </div>
+
+  <header class="masthead doctor-masthead reveal">
+    <div class="deco-sunburst" aria-hidden="true"></div>
+    <p class="masthead-kicker">Una storia parallela</p>
+    <h1 class="masthead-title">MEANWHILE</h1>
+    <p class="masthead-sub">The Doctor Series</p>
+    <div class="deco-divider" aria-hidden="true"><i></i><b></b><i></i></div>
+    <nav class="masthead-nav" aria-label="Altre sezioni del sito">
+      <a href="./index.html">Home</a>
+      <a href="./storie.html">Storie</a>
+      <a href="./personaggi.html">Personaggi</a>
+      <a href="./le-perle-di-bud.html">Le Perle di Bud</a>
+      <a href="./meanwhile-the-doctor.html" aria-current="page">Meanwhile The Doctor</a>
+      <a href="./gotham.html">Gotham 3D</a>
+      <a href="./crediti.html">Crediti</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="doctor-episode reveal" aria-labelledby="doctor-episode-heading">
+      <h2 id="doctor-episode-heading" class="section-title">
+        <span>Archivio parallelo</span>
+        Episodio disponibile
+      </h2>
+
+      <article class="doctor-episode-card">
+        <div class="doctor-episode-visual">
+          <img
+            class="doctor-episode-preview"
+            src="./tavole/Meanwhile%20The%20Doctor/PG1.jpeg"
+            alt=""
+            aria-hidden="true"
+            decoding="async"
+            fetchpriority="high"
+          />
+          <div class="doctor-episode-shade" aria-hidden="true"></div>
+          <img
+            class="doctor-wordmark"
+            src="./tavole/Meanwhile%20The%20Doctor/PG0.jpeg"
+            alt=""
+            aria-hidden="true"
+            width="215"
+            height="100"
+          />
+        </div>
+
+        <div class="doctor-episode-copy">
+          <p class="doctor-episode-code">Episodio 01 &middot; 14 tavole</p>
+          <h3>The Chinese Restaurant Simposium</h3>
+          <p>
+            Un archivio laterale della saga: incontri, viaggi e conversazioni raccolti
+            in un episodio autonomo, da leggere con lo stesso ritmo del fumetto principale.
+          </p>
+          <div class="doctor-episode-actions">
+            <a class="doctor-action doctor-action-primary" href="#doctor-reader">Inizia a leggere</a>
+            <a class="doctor-action" href="./index.html">Torna a Batman</a>
+          </div>
+        </div>
       </article>
     </section>
 
-    <div class="showcase-note">
-      Sezione in preparazione: prossimamente.
-    </div>
+    <section
+      id="doctor-reader"
+      class="reader doctor-reader reveal"
+      aria-labelledby="doctor-reader-title"
+      tabindex="-1"
+    >
+      <div class="reader-head">
+        <span class="reader-chip">Episodio 01</span>
+        <h2 class="reader-vol-title" id="doctor-reader-title">The Chinese Restaurant Simposium</h2>
+        <p class="reader-status" id="doctor-reader-status" role="status" aria-live="polite">
+          Caricamento del fumetto…
+        </p>
+      </div>
+
+      <div class="stage-row">
+        <button class="stage-arrow stage-arrow-prev" id="doctor-prev" type="button" aria-label="Tavola precedente" aria-controls="doctor-stage">
+          <span aria-hidden="true">&#10094;</span>
+        </button>
+
+        <div class="stage-frame">
+          <div
+            class="stage"
+            id="doctor-stage"
+            role="group"
+            aria-label="Tavola del fumetto"
+            aria-describedby="doctor-counter doctor-reader-hint"
+            aria-keyshortcuts="ArrowLeft ArrowRight Home End"
+            tabindex="0"
+          >
+            <div class="page page-prev" aria-hidden="true">
+              <img id="doctor-img-prev" alt="" draggable="false" decoding="async" />
+            </div>
+            <div class="page page-current">
+              <img
+                id="doctor-img-current"
+                src="./tavole/Meanwhile%20The%20Doctor/PG1.jpeg"
+                alt="Nella Napoli notturna e piovosa, un uomo molto muscoloso apre la porta della Trattoria Nennella mentre Batman e i compagni attendono fuori."
+                draggable="false"
+                decoding="async"
+                fetchpriority="high"
+              />
+            </div>
+            <div class="page page-next" aria-hidden="true">
+              <img id="doctor-img-next" alt="" draggable="false" decoding="async" />
+            </div>
+            <div class="stage-shadow" aria-hidden="true"></div>
+          </div>
+          <div class="stage-corners" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        </div>
+
+        <button class="stage-arrow stage-arrow-next" id="doctor-next" type="button" aria-label="Tavola successiva" aria-controls="doctor-stage">
+          <span aria-hidden="true">&#10095;</span>
+        </button>
+      </div>
+
+      <div class="progress" aria-hidden="true">
+        <div class="progress-fill" id="doctor-progress-fill"></div>
+      </div>
+      <p class="page-counter" id="doctor-counter">Tavola 1 di 14</p>
+
+      <div class="reader-controls">
+        <div class="control-group jump">
+          <label class="visually-hidden" for="doctor-jump-input">Vai alla tavola</label>
+          <input id="doctor-jump-input" type="number" inputmode="numeric" min="1" max="14" placeholder="Tavola" />
+          <button id="doctor-jump-button" type="button">Vai</button>
+        </div>
+
+        <div class="control-group zoom">
+          <label for="doctor-zoom-range">Zoom <output id="doctor-zoom-output">100%</output></label>
+          <input id="doctor-zoom-range" type="range" min="60" max="140" step="5" value="100" />
+          <button id="doctor-zoom-reset" type="button" aria-label="Reimposta zoom al 100%">Reset</button>
+        </div>
+
+      </div>
+
+      <p class="reader-hint" id="doctor-reader-hint">
+        Frecce della tastiera, swipe o trascinamento del mouse per voltare pagina.
+      </p>
+      <noscript><p class="doctor-reader-error">Attiva JavaScript per sfogliare tutte le tavole.</p></noscript>
+    </section>
   </main>
 
-  <script src="./site-menu.js?v=12" defer></script>
+  <footer class="site-footer reveal">
+    <div class="deco-divider" aria-hidden="true"><i></i><b></b><i></i></div>
+    <p class="disclaimer" id="disclaimer-text">
+      Progetto fan-made no-profit a scopo di studio e passione personale.
+      Personaggi, immagini e marchi appartengono ai rispettivi proprietari.
+      Nessuna affiliazione o autorizzazione ufficiale.
+    </p>
+    <label class="visually-hidden" for="lang-select">Scegli la lingua dell'avviso</label>
+    <select id="lang-select"></select>
+  </footer>
+
+  <script type="module" src="./js/app.js?v=14"></script>
+  <script type="module" src="./js/doctor-reader.js?v=14"></script>
 </body>
 </html>

@@ -306,9 +306,20 @@ function setupControls() {
 
 // ── Scaffale volumi + ripresa lettura ────────────────────────
 
+function requestedVolumeFromUrl() {
+  const requested = new URLSearchParams(window.location.search)
+    .get("season")
+    ?.trim()
+    .toUpperCase();
+
+  if (!requested) return -1;
+  return VOLUMES.findIndex(volume => volume.short === requested);
+}
+
 function setupShelf() {
   const savedPage = Number.parseInt(storageGet(LAST_PAGE_KEY) ?? "", 10);
   const hasSaved = Number.isInteger(savedPage) && savedPage > 0 && savedPage < TOTAL_PAGES;
+  const requestedVolume = requestedVolumeFromUrl();
 
   if (hasSaved) {
     const savedVolume = volumeForPage(savedPage);
@@ -337,7 +348,12 @@ function setupShelf() {
     });
   });
 
-  return hasSaved ? savedPage : 0;
+  return {
+    page: requestedVolume >= 0
+      ? VOLUME_STARTS[requestedVolume]
+      : (hasSaved ? savedPage : 0),
+    scrollToReader: requestedVolume >= 0
+  };
 }
 
 // ── Avvio ────────────────────────────────────────────────────
@@ -350,6 +366,15 @@ export function initReader() {
   setupZoom();
   setupControls();
 
-  const initialPage = setupShelf();
-  goToPage(initialPage);
+  const initial = setupShelf();
+  goToPage(initial.page);
+
+  if (initial.scrollToReader) {
+    window.requestAnimationFrame(() => {
+      document.getElementById("reader")?.scrollIntoView({
+        behavior: "auto",
+        block: "start"
+      });
+    });
+  }
 }

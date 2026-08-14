@@ -1,10 +1,11 @@
-const CACHE_NAME = "comic-reader-shell-v30";
+const CACHE_PREFIX = "comic-reader-shell-";
+const CACHE_NAME = `${CACHE_PREFIX}v32`;
 const APP_SHELL = [
   "./",
   "./index.html",
   "./redesign.css?v=12",
   "./roulette3d.css?v=12",
-  "./js/app.js?v=12",
+  "./js/app.js?v=14",
   "./js/reader.js",
   "./js/data.js",
   "./js/menu.js",
@@ -19,16 +20,10 @@ const APP_SHELL = [
   "./meanwhile-the-doctor.html",
   "./crediti.html",
   "./app.css?v=12",
-  "./app/app-init.js?v=12",
-  "./app/app-vignette.js?v=12",
-  "./app/app-reader.js?v=12",
-  "./app/app-hamburger.js?v=12",
-  "./app/app-swipe.js?v=12",
-  "./app/app-seasons.js?v=12",
-  "./app/app-pwa.js?v=12",
-  "./app/app-entertainment.js?v=12",
-  "./app/app.js?v=12",
-  "./site-menu.js?v=12",
+  "./doctor-reader.css?v=14",
+  "./js/doctor-reader.js?v=14",
+  "./js/doctor-data.js",
+  "./site-menu.js?v=14",
   "./manifest.json?v=12",
   "./icons/icon-192.png?v=12",
   "./icons/icon-512.png?v=12"
@@ -51,14 +46,9 @@ function isAppShellAsset(pathname) {
     pathname.endsWith("/meanwhile-the-doctor.html") ||
     pathname.endsWith("/crediti.html") ||
     pathname.endsWith("/app.css") ||
-    pathname.endsWith("/app-init.js") ||
-    pathname.endsWith("/app-vignette.js") ||
-    pathname.endsWith("/app-reader.js") ||
-    pathname.endsWith("/app-hamburger.js") ||
-    pathname.endsWith("/app-swipe.js") ||
-    pathname.endsWith("/app-seasons.js") ||
-    pathname.endsWith("/app-pwa.js") ||
-    pathname.endsWith("/app-entertainment.js") ||
+    pathname.endsWith("/doctor-reader.css") ||
+    pathname.endsWith("/doctor-reader.js") ||
+    pathname.endsWith("/doctor-data.js") ||
     pathname.endsWith("/app.js") ||
     pathname.endsWith("/site-menu.js") ||
     pathname.endsWith("/manifest.json") ||
@@ -89,13 +79,14 @@ async function handleAppShellRequest(request) {
     const networkResponse = await fetch(request);
     return cacheNetworkResponse(request, networkResponse);
   } catch {
-    const cachedResponse = await caches.match(request);
+    const cache = await caches.open(CACHE_NAME);
+    const cachedResponse = await cache.match(request);
     if(cachedResponse) {
       return cachedResponse;
     }
 
     if(request.mode === "navigate") {
-      return caches.match("./index.html");
+      return cache.match("./index.html");
     }
 
     throw new Error("Risorsa shell non disponibile");
@@ -103,7 +94,8 @@ async function handleAppShellRequest(request) {
 }
 
 async function handleStaticAssetRequest(request) {
-  const cachedResponse = await caches.match(request);
+  const cache = await caches.open(CACHE_NAME);
+  const cachedResponse = await cache.match(request);
   if(cachedResponse) {
     return cachedResponse;
   }
@@ -142,7 +134,7 @@ self.addEventListener("activate", event => {
     caches.keys().then(keys =>
       Promise.all(
         keys
-          .filter(key => key !== CACHE_NAME)
+          .filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME)
           .map(key => caches.delete(key))
       )
     )

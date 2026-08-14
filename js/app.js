@@ -86,7 +86,7 @@ function setupAmbientPause() {
 
 // ── Service worker / PWA installabile ────────────────────────
 //  Stessa URL registrata dalle pagine secondarie (site-menu.js:
-//  "./sw.js?v=12") → un solo scriptURL condiviso, niente
+//  "./sw.js?v=14") → un solo scriptURL condiviso, niente
 //  re-registrazioni/reload navigando tra home e sezioni. In
 //  sviluppo (localhost) il worker viene disattivato per non
 //  servire cache vecchia durante le modifiche.
@@ -107,7 +107,7 @@ async function registerServiceWorker() {
     }
 
     if (!window.isSecureContext) return;
-    await navigator.serviceWorker.register("./sw.js?v=12", { updateViaCache: "none" });
+    await navigator.serviceWorker.register("./sw.js?v=14", { updateViaCache: "none" });
   } catch (error) {
     console.warn("Service worker non registrato:", error);
   }

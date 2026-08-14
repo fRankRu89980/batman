@@ -33,7 +33,14 @@ export const VOLUMES = [
     short: "S4",
     name: "A Million Miles From Home",
     folder: "Batman 4 - A Million Miles From Home",
-    pages: 52
+    pages: 54
+  },
+  {
+    code: "Vol. V",
+    short: "S5",
+    name: "Batman Dimension",
+    folder: "Batman 5 - Batman Dimension",
+    pages: 7
   }
 ];
 

@@ -1,0 +1,271 @@
+/* Estensioni Gotham Déco per la pagina Meanwhile The Doctor. */
+
+.doctor-page .masthead-nav a[aria-current="page"] {
+  color: var(--ink);
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+.doctor-masthead .masthead-title {
+  font-size: clamp(3rem, 11vw, 7.25rem);
+  letter-spacing: 0.045em;
+}
+
+.doctor-episode {
+  margin-bottom: 34px;
+}
+
+.doctor-episode-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+  min-height: 390px;
+  overflow: hidden;
+  border: 1px solid var(--line-soft);
+  border-radius: calc(var(--radius) + 6px);
+  background: var(--panel);
+  box-shadow: 0 28px 60px -30px rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.doctor-episode-visual {
+  position: relative;
+  min-width: 0;
+  min-height: 390px;
+  overflow: hidden;
+  background: var(--ink-2);
+}
+
+.doctor-episode-preview {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: 50% 35%;
+  filter: saturate(0.82) contrast(1.08) brightness(0.72);
+  transform: scale(1.015);
+  transition: transform 0.8s var(--ease-out), filter 0.5s var(--ease-out);
+}
+
+.doctor-episode-card:hover .doctor-episode-preview {
+  filter: saturate(0.95) contrast(1.08) brightness(0.82);
+  transform: scale(1.045);
+}
+
+.doctor-episode-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 52%, rgba(7, 8, 13, 0.74) 100%),
+    linear-gradient(0deg, rgba(7, 8, 13, 0.78), transparent 54%);
+  pointer-events: none;
+}
+
+.doctor-wordmark {
+  position: absolute;
+  left: clamp(16px, 3vw, 30px);
+  bottom: clamp(16px, 3vw, 28px);
+  display: block;
+  width: 215px;
+  max-width: calc(100% - 32px);
+  height: auto;
+  padding: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(7, 8, 13, 0.82);
+  box-shadow: 0 16px 34px -18px rgba(0, 0, 0, 0.95);
+}
+
+.doctor-episode-copy {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: clamp(24px, 5vw, 48px);
+}
+
+.doctor-episode-copy::before,
+.doctor-episode-copy::after {
+  content: "";
+  position: absolute;
+  right: 24px;
+  width: 42px;
+  height: 42px;
+  border-color: var(--gold);
+  border-style: solid;
+  opacity: 0.55;
+}
+
+.doctor-episode-copy::before {
+  top: 24px;
+  border-width: 1px 1px 0 0;
+}
+
+.doctor-episode-copy::after {
+  bottom: 24px;
+  border-width: 0 1px 1px 0;
+}
+
+.doctor-episode-code {
+  margin: 0 0 8px;
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.doctor-episode-copy h3 {
+  margin: 0;
+  max-width: 12ch;
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.35rem);
+  line-height: 1;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.doctor-episode-copy > p:not(.doctor-episode-code) {
+  max-width: 52ch;
+  margin: 18px 0 0;
+  color: var(--text-dim);
+  font-size: 0.96rem;
+  line-height: 1.75;
+}
+
+.doctor-episode-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.doctor-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 9px 18px;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--gold-bright);
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background 0.25s, color 0.25s, transform 0.2s var(--ease-out);
+}
+
+.doctor-action-primary,
+.doctor-action:hover {
+  color: var(--ink);
+  background: var(--gold);
+}
+
+.doctor-action:hover {
+  transform: translateY(-2px);
+}
+
+.doctor-action-primary:hover {
+  background: var(--gold-bright);
+}
+
+.doctor-reader {
+  --reader-zoom: 1;
+}
+
+.doctor-reader .stage {
+  --page-ar: 1.5;
+  touch-action: pan-y pinch-zoom;
+}
+
+.doctor-reader:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 5px;
+}
+
+.doctor-reader .stage:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 4px;
+}
+
+.doctor-reader-error {
+  margin: 16px 0 0;
+  color: var(--gold-bright);
+  text-align: center;
+}
+
+@media (max-width: 1040px) {
+  .doctor-episode-card {
+    grid-template-columns: 1fr;
+  }
+
+  .doctor-episode-visual {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+
+  .doctor-episode-shade {
+    background: linear-gradient(0deg, rgba(7, 8, 13, 0.78), transparent 58%);
+  }
+
+  .doctor-episode-copy h3 {
+    max-width: 15ch;
+  }
+}
+
+@media (max-width: 760px) {
+  .doctor-reader .control-group.zoom {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .doctor-masthead .masthead-title {
+    font-size: clamp(2.75rem, 15vw, 4.4rem);
+    letter-spacing: 0.02em;
+  }
+
+  .doctor-episode-card {
+    border-radius: var(--radius);
+  }
+
+  .doctor-episode-copy {
+    padding: 24px 20px 28px;
+  }
+
+  .doctor-episode-copy::before,
+  .doctor-episode-copy::after {
+    right: 16px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .doctor-episode-copy::before { top: 16px; }
+  .doctor-episode-copy::after { bottom: 16px; }
+
+  .doctor-episode-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .doctor-action {
+    width: 100%;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .doctor-episode-card:hover .doctor-episode-preview {
+    filter: saturate(0.82) contrast(1.08) brightness(0.72);
+    transform: scale(1.015);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doctor-episode-preview,
+  .doctor-action {
+    transition: none;
+  }
+}
